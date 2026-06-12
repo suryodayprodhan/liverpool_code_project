@@ -13,11 +13,11 @@
 
 # 	Main program:
 #	1. n_chain: No. of instances of the randomized 1D model Hamiltonian of the polymer; must be an integer and >=1
-#	2. property: Physical property to be detemined; must be a string - either 'mobility' or 'diffusivity' or 'diffusivity-timeseries'
+#	2. property: Physical property to be determined; must be a string - either 'mobility' or 'diffusivity' or 'diffusivity-timeseries'
 
 
 #	Module 1:
-#	3. n_site: No. of SRU in polymer chain (for the definiton of SRU, please see the references in the main text); must be an integer and >=2
+#	3. n_site: No. of SRU in polymer chain (for the definition of SRU, please see the references in the main text); must be an integer and >=2
 #	4. obc_or_pbc: Open/periodic boundary condition applied to the polymer chain; must be a string - either 'obc' or 'pbc'
 #	5. alpha: Average on-site energy
 #	6. beta: Average electronic coupling
