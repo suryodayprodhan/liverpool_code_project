@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export FC=ifx
+export CC=icx
+python -m numpy.f2py -c -llapack -lblas datatype.f90 static_disordered_hamiltonian.f90 random_number_generator_fixedseed.f90 -m static_disordered_hamiltonian --f90flags="-check bounds -traceback -O0 -g" --verbose
+python -m numpy.f2py -c -llapack -lblas datatype.f90 calculate_ll.f90 -m calculate_ll --f90flags="-check bounds -traceback -O0 -g" --verbose
+python -m numpy.f2py -c -llapack -lblas datatype.f90 hopping_rate.f90 -m hopping_rate --f90flags="-check bounds -traceback -O0 -g" --verbose
+python -m numpy.f2py -c -llapack -lblas datatype.f90 steady_state_mobility.f90 -m steady_state_mobility --f90flags="-check bounds -traceback -O0 -g" --verbose
