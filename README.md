@@ -1,9 +1,9 @@
 The project contains code written in Python and Fortran 90.
 
 **User Environment:**
-To successfully run the code, the user must have the following activated in the user environment
--- python=3.12 
--- numpy=2.4.4
+To successfully run the code, the user must have the following activated in the user environment  
+-- python=3.12  
+-- numpy=2.4.4  
 
 **Compilation:**
 The Fortran 90 codes have been compiled using numpy.f2py tool using Intel Fortran compiler. The user should import the 
