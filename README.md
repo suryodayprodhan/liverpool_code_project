@@ -23,7 +23,7 @@ The format for the input file is as follows:
 
 **1. comment line  
 2. blank line  
-3. 3. n_chain: No. of instances of the randomized 1D model Hamiltonian of the polymer; must be an integer and >=1  
+3. n_chain: No. of instances of the randomized 1D model Hamiltonian of the polymer; must be an integer and >=1  
 4. property: Physical property to be determined; must be a string - either 'mobility' or 'diffusivity' or 'ipr' or 'll'  
 5. n_site: No. of SRU in polymer chain; must be an integer and >=2  
 6. obc_or_pbc: Open/periodic boundary condition applied to the polymer chain; must be a string - either 'obc' or 'pbc'  
