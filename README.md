@@ -21,26 +21,25 @@ Or
 **Input:** 
 The format for the input file is as follows: 
 
-**1. comment line 
-2. blank line
-3. 3. n_chain: No. of instances of the randomized 1D model Hamiltonian of the polymer; must be an integer and >=1
-4. property: Physical property to be determined; must be a string - either 'mobility' or 'diffusivity' or 'ipr' or 'll'
-5. n_site: No. of SRU in polymer chain; must be an integer and >=2
-6. obc_or_pbc: Open/periodic boundary condition applied to the polymer chain; must be a string - either 'obc' or 'pbc'
-7. alpha: Average on-site energy
-8. beta: Average electronic coupling
-9. sigma_alpha_static: Standard deviation in the static disorder of on-site energy
-10. sigma_beta_static: Standard deviation in static disorder of the coupling
-11. rate_equation_type: Type of rate equation expression to be used (please see the main document for references); 
-    must be a string - either 'marcus' or 'jortner' or 'm-a' or 'generalized'
-12. sigma_alpha_dynamic: Dynamic disorder in on-site energy
-13. sigma_beta_dynamic: Dynamic disorder in coupling
-14. lambda: Reorganization energy/SRU due to coupling with vibrational modes
-15. T: Temperature
-16. field: Electric field strength
-17. sru_length: SRU length
-18. carrier: carrier type; must be a string - either 'h' or 'e'
-19. blank line**
+**1. comment line  
+2. blank line  
+3. 3. n_chain: No. of instances of the randomized 1D model Hamiltonian of the polymer; must be an integer and >=1  
+4. property: Physical property to be determined; must be a string - either 'mobility' or 'diffusivity' or 'ipr' or 'll'  
+5. n_site: No. of SRU in polymer chain; must be an integer and >=2  
+6. obc_or_pbc: Open/periodic boundary condition applied to the polymer chain; must be a string - either 'obc' or 'pbc'  
+7. alpha: Average on-site energy  
+8. beta: Average electronic coupling  
+9. sigma_alpha_static: Standard deviation in the static disorder of on-site energy  
+10. sigma_beta_static: Standard deviation in static disorder of the coupling  
+11. rate_equation_type: Type of rate equation expression to be used; must be a string - either 'marcus' or 'jortner' or 'm-a' or 'generalized'  
+12. sigma_alpha_dynamic: Dynamic disorder in on-site energy  
+13. sigma_beta_dynamic: Dynamic disorder in coupling  
+14. lambda: Reorganization energy/SRU due to coupling with vibrational modes  
+15. T: Temperature  
+16. field: Electric field strength  
+17. sru_length: SRU length  
+18. carrier: carrier type; must be a string - either 'h' or 'e'  
+19. blank line**  
 
 **Output:**
 The program currently calculates the energies of localized states of the disordered Hamiltonian, their coefficients, their 
