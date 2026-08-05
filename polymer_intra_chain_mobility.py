@@ -1,8 +1,8 @@
 # MAIN CODE FOR THE CALCULATION OF CHARGE MOBILITY OR CHARGE DIFFUSIVITY IN BULK POLYMER FROM A GENERALIZED 1D MODEL HAMILTONIAN 
 
 # The user can choose -- 
-#	A. charge mobility within standard masters equation approach 
-# 	B. charge diffusivity through kinetic Monte Carlo scheme
+#	A. charge mobility within standard masters equation approach ('mobility_steady_state')
+# 	B. charge mobility from diffusivity via master equation + Einstein relation ('mobility_diffusivity')
 
 # The Input file -- 
 #	I. default input: DEFAULT_INPUT
@@ -13,11 +13,11 @@
 
 # 	Main program:
 #	1. n_chain: No. of instances of the randomized 1D model Hamiltonian of the polymer; must be an integer and >=1
-#	2. property: Physical property to be determined; must be a string - either 'mobility' or 'diffusivity' or 'diffusivity-timeseries'
+#	2. property: Physical property to be determined; must be a string - either 'mobility_steady_state' or 'mobility_diffusivity' (optionally with 'ipr', 'll')
 
 
 #	Module 1:
-#	3. n_site: No. of SRU in polymer chain (for the definition of SRU, please see the references in the main text); must be an integer and >=2
+#	3. n_site: No. of SRU in polymer chain (for the definition of SRU, please see the references in the main text); must be an integer and >=200 for steady_state_mobility, >600 for diffusivity_mobility.
 #	4. obc_or_pbc: Open/periodic boundary condition applied to the polymer chain; must be a string - either 'obc' or 'pbc'
 #	5. alpha: Average on-site energy
 #	6. beta: Average electronic coupling
@@ -54,6 +54,7 @@ import calculate_ipr
 import calculate_ll
 import hopping_rate
 import steady_state_mobility 
+import diffusivity
 
 def main():
 
@@ -112,7 +113,7 @@ def main():
     random_seed=n_chain+37*n_site+41*int(T)
     random.seed(random_seed)
 
-    if 'mobility' in property:
+    if any(string in property for string in ('mobility_steady_state','mobility_diffusivity')):
         mobility=np.zeros((n_chain))
 
 # Loop over the number of randomized polymer conformations
@@ -146,7 +147,7 @@ def main():
                 print('IPR of localized states are calculated',flush=True)
 
 
-        if any(string in property for string in ('ll','mobility','diffusivity')):
+        if any(string in property for string in ('ll','mobility_steady_state','mobility_diffusivity','diffusivity')):
 
             ll_index=calculate_ll.main(ichain,n_site,sru_length,obc_or_pbc,output_folder)        
 
@@ -158,7 +159,7 @@ def main():
                 print('Localization length of localized states are calculated',flush=True)
 
 
-        if any(string in property for string in ('mobility','diffusivity')) and ll_index == 0:
+        if any(string in property for string in ('mobility_steady_state','mobility_diffusivity','diffusivity')) and ll_index == 0:
 
             if rate_equation_type == 'marcus':
 
@@ -173,7 +174,7 @@ def main():
                     print('Hopping rate between localized states are calculated',flush=True)
 
 
-        if 'mobility' in property and rate_index == 0:
+        if 'mobility_steady_state' in property and rate_index == 0:
 
                 mobility[ichain-1],mobility_index=steady_state_mobility.main(ichain,n_site,sru_length,field,carrier,obc_or_pbc,output_folder)
 
@@ -184,7 +185,19 @@ def main():
                 else:
                     print('Steady state intra-chain mobility is calculated',flush=True)
 
-    if 'mobility' in property:
+
+        if 'mobility_diffusivity' in property and rate_index == 0:
+
+                mobility[ichain-1],mobility_index=diffusivity.main(ichain,n_site,sru_length,carrier,T,output_folder)
+
+#                print(diffusivity.main.__doc__)
+
+                if mobility_index != 0:
+                    print('Error - mobility calculation',flush=True)
+                else:
+                    print('Intra-chain mobility is calculated from diffusivity',flush=True)
+
+    if any(string in property for string in ('mobility_steady_state','mobility_diffusivity')):
         with open('mobility_list.dat','w+') as mobility_file:
             for ii in range(0,n_chain):
                 mobility_file.write(str('{:.10f}'.format(mobility[ii]))+'\n')

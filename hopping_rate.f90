@@ -23,6 +23,7 @@ SUBROUTINE marcus(ichain,n_site,sru_length,sigma_alpha_dynamic,sigma_beta_dynami
     real(kind=DP) :: pi,hbar,kB,prefactor,kBT,field_eva,pbc_box_length,delta_E,lambda_total,rho_fcwt,coupling_element,junk
     real(kind=DP), external :: gaussian_random_number
     real(kind=DP) :: abstol,dlamch
+    real(kind=DP), allocatable :: S4(:)
     character(len=20) :: str
     character(len=2000) :: filename
 
@@ -74,6 +75,19 @@ SUBROUTINE marcus(ichain,n_site,sru_length,sigma_alpha_dynamic,sigma_beta_dynami
         enddo
     endif
 
+! Precompute the per-state quartic sum S4(i) = sum_k C(k,i)**4.
+! The reorganization energy separates as lambda_total(i,j) = (S4(i)+S4(j))*Lambda,
+! so this replaces the O(n_site) inner loop in calculate_reorg_energy with an
+! O(1) lookup, reducing the pair loop from O(n_site^3) to O(n_site^2) for this term.
+
+    allocate(S4(1:n_site))
+    do ii=1,n_site
+        S4(ii)=0.0d0
+        do kk=1,n_site
+            S4(ii)=S4(ii)+C(kk,ii)**4
+        enddo
+    enddo
+
 
 ! Calculation of the hopping rates
 
@@ -86,8 +100,9 @@ SUBROUTINE marcus(ichain,n_site,sru_length,sigma_alpha_dynamic,sigma_beta_dynami
                 call calculate_delta_E(ii,jj,obc_or_pbc,pbc_box_length,carrier,field_eva,delta_E)
 
 ! Reorganization energy for charge transfer from intial to final states
+! (precomputed separable form; equivalent to the original loop over kk)
 
-                call calculate_reorg_energy(ii,jj,n_site,Lambda,lambda_total)
+                lambda_total=(S4(ii)+S4(jj))*Lambda
 
 ! Franck-condon factor and temperature weighted DOS
 
@@ -149,7 +164,7 @@ SUBROUTINE marcus(ichain,n_site,sru_length,sigma_alpha_dynamic,sigma_beta_dynami
     write(99)((k_hopping(ii,jj),jj=1,n_site),ii=1,n_site)
     close(99)
 
-    deallocate(E,C,coord,k_hopping); index=0
+    deallocate(E,C,coord,k_hopping,S4); index=0
 
     return
 
@@ -206,4 +221,3 @@ SUBROUTINE calculate_reorg_energy(ii,jj,n_site,Lambda,lambda_total)
    return
 
 END SUBROUTINE
-
