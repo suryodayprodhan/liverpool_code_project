@@ -1,0 +1,19 @@
+# Main Input
+
+20
+mobility_diffusivity
+1000
+pbc
+0.0
+0.1
+0.11
+0.0
+marcus
+0.01
+0.01
+0.1
+300.0
+100.0
+10.0
+h
+
