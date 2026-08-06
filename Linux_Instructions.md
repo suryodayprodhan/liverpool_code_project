@@ -99,7 +99,8 @@ If your system Python is older than 3.11, install a newer one first:
 With the environment activated, install the required packages and versions:
 
     pip install --upgrade pip
-    pip install numpy==1.26.4 scipy matplotlib
+    pip install numpy==1.26.4 scipy matplotlib 
+    pip install meson ninja
 
 Version notes:
 
@@ -156,10 +157,10 @@ This reads `DEFAULT_INPUT`. To use a custom input file:
 
     python polymer_intra_chain_mobility.py my_input.txt
 
-To run the parameter sweep (from inside the Test_case folder):
+To run the parameter sweep (from inside the TestExample folder):
 
-    cd Test_case
-    python mobility_sweep.py
+    cd TestExample
+    python mobility_vs_disorder.py
 
 Because the sweep launches the main program as a subprocess, it inherits the
 current environment - so make sure oneAPI is sourced and the venv is active
@@ -185,7 +186,7 @@ in the shell you launch it from.
     python3 -m venv gnn
     source gnn/bin/activate
     pip install --upgrade pip
-    pip install numpy==1.26.4 scipy matplotlib
+    pip install numpy==1.26.4 scipy matplotlib meson ninja
 
     # Build
     source /opt/intel/oneapi/setvars.sh
