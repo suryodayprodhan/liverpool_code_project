@@ -1,0 +1,5 @@
+Running the file mobility_vs_disorder.py generates plots of mobility as calculated for different values of sigma_alpha_static.
+ 
+The file currently is set to calculate the values for beta= 0.1 eV and sigma_alpha_static for four values ranging form 0.07 eV to 0.1 eV. The range of values can be changed by respectively adding values in the array 'beta_list', and altering values of the variables starting_sigma, upto_sigma, number_of_points.
+
+An example of the plot displaying the expected trends is in the folder labelled 'Reference', along with an example of input and mobility values. 

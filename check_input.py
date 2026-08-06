@@ -35,7 +35,7 @@ def main(filename):
         if int(lines[ii]) <= 0:
             check_flag=1; return(check_flag)
     
-    if any(string not in ('mobility','diffusivity','ll','ipr') for string in lines[3].strip().split()):
+    if any(string not in ('mobility_steady_state','mobility_diffusivity','ll','ipr') for string in lines[3].strip().split()):
         check_flag=1; return(check_flag)
     if lines[5].strip() not in ('obc','pbc'):
         check_flag=1; return(check_flag)
