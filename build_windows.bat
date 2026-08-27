@@ -3,17 +3,20 @@ setlocal enabledelayedexpansion
 
 REM ============================================================
 REM  Windows build script for the polymer mobility Fortran modules
-REM  Save this file as build.bat (NOT build.bat.txt)
-REM  Run it from CMD with your Python venv activated:  build.bat
+REM  Python 3.12+ with meson backend
+REM  Save as build.bat (NOT build.bat.txt)
+REM  Run from CMD with your Python venv activated:  build.bat
 REM ============================================================
 
-REM --- Intel oneAPI version (uses ifx + MKL for LAPACK/BLAS) ---
-REM  Adjust this path to match your oneAPI install location.
+REM Adjust this path to match your oneAPI install location
 call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat"
 
-set NPY_DISTUTILS_APPEND_FLAGS=1
-set F2PY=python -m numpy.f2py -c --fcompiler=intelvem --f77exec=ifx --f90exec=ifx
-set F90FLAGS=-check bounds -traceback -O0 -g
+REM Tell meson which compilers to use (meson ignores --fcompiler)
+set FC=ifx
+set CC=icx
+
+set F2PY=python -m numpy.f2py -c
+set F90FLAGS=-O3 -xHost
 set LIBS=-lmkl_rt
 
 echo Building static_disordered_hamiltonian...

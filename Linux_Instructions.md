@@ -78,10 +78,10 @@ build script already uses `--f77exec=ifx --f90exec=ifx` to handle this. If
 
 Create an isolated virtual environment with `venv` and activate it:
 
-    python3 -m venv gnn
-    source gnn/bin/activate
+    python3 -m venv liverpool
+    source liverpool/bin/activate
 
-Your prompt should now show `(gnn)`. To leave the environment later, run
+Your prompt should now show `(liverpool)`. To leave the environment later, run
 `deactivate`.
 
 If your system Python is older than 3.11, install a newer one first:
@@ -89,8 +89,8 @@ If your system Python is older than 3.11, install a newer one first:
     sudo add-apt-repository ppa:deadsnakes/ppa
     sudo apt update
     sudo apt install -y python3.12 python3.12-venv python3.12-dev
-    python3.12 -m venv gnn
-    source gnn/bin/activate
+    python3.12 -m venv liverpool
+    source liverpool/bin/activate
 
 ---
 
@@ -118,7 +118,7 @@ Make sure the oneAPI environment is sourced and the Python environment is
 activated first (so f2py uses the right numpy):
 
     source /opt/intel/oneapi/setvars.sh      # if not already sourced
-    source gnn/bin/activate                  # if not already active
+    source liverpool/bin/activate                  # if not already active
 
 Then run the provided build script:
 
@@ -183,8 +183,8 @@ in the shell you launch it from.
     sudo apt install -y intel-basekit intel-hpckit
 
     # Python environment
-    python3 -m venv gnn
-    source gnn/bin/activate
+    python3 -m venv liverpool
+    source liverpool/bin/activate
     pip install --upgrade pip
     pip install numpy==1.26.4 scipy matplotlib meson ninja
 
@@ -201,7 +201,7 @@ in the shell you launch it from.
 ## Troubleshooting
 
 - **`No module named numpy`** - the venv is not activated, or numpy is not
-  installed in it. Run `source gnn/bin/activate` then reinstall.
+  installed in it. Run `source liverpool/bin/activate` then reinstall.
 - **`ImportError: libifport.so.5: cannot open shared object file`** - the
   Intel runtime libraries are not on the library path. Source oneAPI:
   `source /opt/intel/oneapi/setvars.sh`. If it persists, add the compiler lib

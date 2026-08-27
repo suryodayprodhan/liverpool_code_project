@@ -47,6 +47,7 @@
 import sys
 import random
 import numpy as np
+import os
 from pathlib import Path
 import check_input
 import static_disordered_hamiltonian
@@ -55,6 +56,7 @@ import calculate_ll
 import hopping_rate
 import steady_state_mobility 
 import diffusivity
+import diffusivity3d
 
 def main():
 
@@ -113,7 +115,7 @@ def main():
     random_seed=n_chain+37*n_site+41*int(T)
     random.seed(random_seed)
 
-    if any(string in property for string in ('mobility_steady_state','mobility_diffusivity')):
+    if any(string in property for string in ('mobility_steady_state','mobility_diffusivity', 'mobility_3d' )):
         mobility=np.zeros((n_chain))
 
 # Loop over the number of randomized polymer conformations
@@ -147,7 +149,7 @@ def main():
                 print('IPR of localized states are calculated',flush=True)
 
 
-        if any(string in property for string in ('ll','mobility_steady_state','mobility_diffusivity','diffusivity')):
+        if any(string in property for string in ('ll','mobility_steady_state','mobility_diffusivity','mobility_3d')):
 
             ll_index=calculate_ll.main(ichain,n_site,sru_length,obc_or_pbc,output_folder)        
 
@@ -159,7 +161,7 @@ def main():
                 print('Localization length of localized states are calculated',flush=True)
 
 
-        if any(string in property for string in ('mobility_steady_state','mobility_diffusivity','diffusivity')) and ll_index == 0:
+        if any(string in property for string in ('mobility_steady_state','mobility_diffusivity','mobility_3d')) and ll_index == 0:
 
             if rate_equation_type == 'marcus':
 
@@ -197,7 +199,18 @@ def main():
                 else:
                     print('Intra-chain mobility is calculated from diffusivity',flush=True)
 
-    if any(string in property for string in ('mobility_steady_state','mobility_diffusivity')):
+    if 'mobility_3d' in property:
+        V_inter = float(os.environ.get('V_INTER', '0.03'))
+        P = float(os.environ.get('P_PERSIST', '50.0'))
+
+        D_3D, mu_3D, index_3d = diffusivity3d.main( n_chain, n_site, sru_length, carrier, T, output_folder, V_inter=V_inter, P=P) 
+
+        if index_3d != 0:
+            print('Error - 3D diffusivity calculation', flush=True)
+        else:
+            print(f'3D mobility = {mu_3D:.6e} cm^2/(V.s)', flush=True)
+    
+    if any(string in property for string in ('mobility_steady_state','mobility_diffusivity','mobility_3d' )):
         with open('mobility_list.dat','w+') as mobility_file:
             for ii in range(0,n_chain):
                 mobility_file.write(str('{:.10f}'.format(mobility[ii]))+'\n')
