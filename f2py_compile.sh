@@ -5,8 +5,9 @@ source /opt/intel/oneapi/setvars.sh
 
 export NPY_DISTUTILS_APPEND_FLAGS=1
 export NPY_NUMPY_SITE_CFG=~/.numpy-site.cfg
+export FFLAGS="-ffree-line-length-none"
 
-F2PY="python3.11 -m numpy.f2py -c --fcompiler=intelem --f77exec=ifx --f90exec=ifx"
+F2PY="python3.12 -m numpy.f2py -c --fcompiler=intelem --f77exec=ifx --f90exec=ifx"
 F90FLAGS="-O3 -xHost"
 LIBS="-llapack -lblas"
 
